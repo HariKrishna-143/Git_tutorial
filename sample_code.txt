@@ -1,0 +1,50 @@
+from fpdf import FPDF
+#class object FPDF() which is predefiend in side the package fpdf.
+document=FPDF()
+document.add_page()
+#font size setting of the page 
+document.set_font("Arial", size=15)
+#txt message will displayed on pdf page  at the center.
+document.cell(200, 10, "C:\\Users\\hari\\Desktop\\student.xlsx", ln=1, align="L")
+#pdf file naming.
+document.output("pdf_file_name.pdf")
+#creating page format A4 Or A3 Or ...
+document=FPDF(orientation='P', unit='mm', format='A3')
+print("pdf has been created successfully....")
+
+
+from win32com import client
+import win32api
+import pandas as pd
+import xlrd
+
+xlsFile = xlrd.open_workbook("C:\\Users\\hari\\Desktop\\student.xlsx")
+sheet = xlsFile.sheet_by_index(0)
+
+for i in range(1, sheet.nrows):
+    row_1 = sheet.row_values(0)
+    row_n = sheet.row_values(i)
+input_file = "C:\\Users\\hari\\Desktop\\student.xlsx"
+#give your file name with valid path 
+output_file = "C:\\Users\\hari\\Desktop\\sample_output.pdf"
+#give valid output file name and path
+app = client.DispatchEx("Excel.Application")
+app.Interactive = False
+#app.Visible = False
+Workbook = app.Workbooks.Open(input_file)
+try:
+    Workbook.ActiveSheet.ExportAsFixedFormat(0, output_file)
+except Exception as e:
+    print("Failed to convert in PDF format")
+    print(str(e))
+finally:
+    Workbook.Close()
+print("done")
+
+
+
+
+import xlrd
+wb = xlrd.open_workbook(filename)
+xlrd.xldate.xldate_as_datetime(41889, wb.datemode)
+=> datetime.datetime(2014, 9, 7, 0, 0)
